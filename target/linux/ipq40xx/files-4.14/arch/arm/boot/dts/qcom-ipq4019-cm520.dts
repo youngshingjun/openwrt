@@ -25,6 +25,11 @@
 	model = "Qualcomm Technologies, Inc. IPQ4019";
 	compatible = "qcom,cm520", "qcom,ipq4019";
 
+	memory {
+		device_type = "memory";
+		reg = <0x80000000 0x20000000>;
+	};
+
 	chosen {
 		bootargs-append = "ubi.block=0,1 root=/dev/ubiblock0_1 rootfstype=squashfs";
 	};
@@ -118,6 +123,55 @@
 
 		watchdog@b017000 {
 			status = "okay";
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		lan3 {
+			label = "cm520:blue:lan3";
+			gpios = <&qca8075 8 GPIO_ACTIVE_HIGH>;
+		};
+
+		lan4 {
+			label = "cm520:blue:lan4";
+			gpios = <&qca8075 9 GPIO_ACTIVE_HIGH>;
+		};
+
+		wan {
+			label = "cm520:blue:wan";
+			gpios = <&qca8075 15 GPIO_ACTIVE_HIGH>;
+		};
+
+		usb {
+			label = "cm520:blue:usb";
+			gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
+		};
+
+		can {
+			label = "cm520:blue:can";
+			gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
+		};
+
+		wifi5g {
+			label = "&qca8075:blue:wifi5g";
+			gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
+		};
+
+		wifi2g {
+			label = "&qca8075:blue:wifi2g";
+			gpios = <&tlmm 13 GPIO_ACTIVE_HIGH>;
 		};
 	};
 };
