@@ -141,6 +141,7 @@ case "$FIRMWARE" in
 		ath10kcal_extract "ART" 4096 12064
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 0)
 		;;
+	qcom,cm520 |\
 	compex,wpj428 |\
 	openmesh,a42 |\
 	openmesh,a62)
@@ -176,6 +177,7 @@ case "$FIRMWARE" in
 		ath10kcal_extract "ART" 20480 12064
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 12)
 		;;
+	qcom,cm520 |\
 	compex,wpj428 |\
 	openmesh,a42 |\
 	openmesh,a62)
