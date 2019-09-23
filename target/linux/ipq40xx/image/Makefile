@@ -274,6 +274,16 @@ define Device/meraki_mr33
 endef
 TARGET_DEVICES += meraki_mr33
 
+define Device/qcom_cm520
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_DTS := qcom-ipq4019-cm520
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_TITLE := Qualcomm CM520
+endef
+TARGET_DEVICES += qcom_cm520
+
 define Device/netgear_ex61x0v2
 	$(call Device/DniImage)
 	DEVICE_DTS_CONFIG := config@4
