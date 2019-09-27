@@ -26,9 +26,10 @@ avm,fritzbox-4040)
 glinet,gl-b1300)
 	ucidef_set_led_wlan "wlan" "WLAN" "${boardname}:green:wlan" "phy0tpt"
 	;;
-qcom,cm520)
-	ucidef_set_led_wlan "wlan2g" "WLAN2G" "${boardname}:blue:wlan2G" "phy0tpt"
-	ucidef_set_led_wlan "wlan5g" "WLAN5G" "${boardname}:blue:wlan5G" "phy1tpt"
+qcom,cm520 |\
+qcom,cm520v2)
+	ucidef_set_led_wlan "wlan2g" "WLAN2G" "cm520:blue:wlan2G" "phy0tpt"
+	ucidef_set_led_wlan "wlan5g" "WLAN5G" "cm520:blue:wlan5G" "phy1tpt"
 	;;
 netgear,ex6100v2 |\
 netgear,ex6150v2)

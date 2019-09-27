@@ -1,0 +1,250 @@
+/* Copyright (c) 2015, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, David Bauer <mail@david-bauer.net>
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ */
+
+#include "qcom-ipq4019.dtsi"
+#include "qcom-ipq4019-bus.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/soc/qcom,tcsr.h>
+
+/ {
+	model = "Qualcomm Technologies, Inc. IPQ4019";
+	compatible = "qcom,cm520", "qcom,ipq4019";
+
+	memory {
+		device_type = "memory";
+		reg = <0x80000000 0x20000000>;
+	};
+
+	chosen {
+		bootargs-append = "ubi.block=0,1 root=/dev/ubiblock0_1 rootfstype=squashfs";
+	};
+
+	soc {
+		rng@22000 {
+			status = "okay";
+		};
+
+		mdio@90000 {
+			status = "okay";
+			pinctrl-0 = <&mdio_pins>;
+			pinctrl-names = "default";
+			phy-reset-gpio = <&tlmm 47 0>;
+			/delete-node/ ethernet-phy@0;
+			/delete-node/ ethernet-phy@1;
+		};
+
+		ess-psgmii@98000 {
+			status = "okay";
+		};
+
+		tcsr@1949000 {
+			compatible = "qcom,tcsr";
+			reg = <0x1949000 0x100>;
+			qcom,wifi_glb_cfg = <TCSR_WIFI_GLB_CFG>;
+		};
+
+		tcsr@194b000 {
+			compatible = "qcom,tcsr";
+			reg = <0x194b000 0x100>;
+			qcom,usb-hsphy-mode-select = <TCSR_USB_HSPHY_HOST_MODE>;
+		};
+
+		ess_tcsr@1953000 {
+			compatible = "qcom,tcsr";
+			reg = <0x1953000 0x1000>;
+			qcom,ess-interface-select = <TCSR_ESS_PSGMII>;
+		};
+
+		tcsr@1957000 {
+			compatible = "qcom,tcsr";
+			reg = <0x1957000 0x100>;
+			qcom,wifi_noc_memtype_m0_m2 = <TCSR_WIFI_NOC_MEMTYPE_M0_M2>;
+		};
+
+		usb3@8af8800 {
+			status = "okay";
+		};
+
+		crypto@8e3a000 {
+			status = "okay";
+		};
+
+		watchdog@b017000 {
+			status = "okay";
+		};
+
+		qca8075: ess-switch@c000000 {
+			status = "okay";
+			switch_lan_bmp = <0x18>;
+			switch_wan_bmp = <0x20>;
+
+			#gpio-cells = <2>;
+			gpio-controller;
+		};
+
+		edma@c080000 {
+			status = "okay";
+		};
+
+		serial@78af000 {
+			pinctrl-0 = <&serial_0_pins>;
+			pinctrl-names = "default";
+			status = "okay";
+		};
+
+		serial@78b0000 {
+			pinctrl-0 = <&serial_1_pins>;
+			pinctrl-names = "default";
+			status = "okay";
+		};
+
+		usb3: usb3@8af8800 {
+			status = "okay";
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		lan3 {
+			label = "cm520:blue:lan3";
+			gpios = <&qca8075 8 GPIO_ACTIVE_HIGH>;
+		};
+
+		lan4 {
+			label = "cm520:blue:lan4";
+			gpios = <&qca8075 9 GPIO_ACTIVE_HIGH>;
+		};
+
+		wan {
+			label = "cm520:blue:wan";
+			gpios = <&qca8075 15 GPIO_ACTIVE_HIGH>;
+		};
+
+		usb {
+			label = "cm520:blue:usb";
+			gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
+		};
+
+		can {
+			label = "cm520:blue:can";
+			gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
+		};
+
+		wifi5g {
+			label = "&qca8075:blue:wifi5g";
+			gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
+		};
+
+		wifi2g {
+			label = "&qca8075:blue:wifi2g";
+			gpios = <&tlmm 13 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&tlmm {
+	serial_0_pins: serial_pinmux {
+		mux {
+			pins = "gpio16", "gpio17";
+			function = "blsp_uart0";
+			bias-disable;
+		};
+	};
+
+	serial_1_pins: serial1_pinmux {
+		mux {
+			pins = "gpio8", "gpio9";
+			function = "blsp_uart1";
+			bias-disable;
+		};
+	};
+
+	mdio_pins: mdio_pinmux {
+		mux_1 {
+			pins = "gpio6";
+			function = "mdio";
+			bias-pull-up;
+		};
+		mux_2 {
+			pins = "gpio7";
+			function = "mdc";
+			bias-pull-up;
+		};
+	};
+
+	nand_pins: nand_pins {
+
+		pullups {
+			pins = "gpio52", "gpio53", "gpio58",
+				"gpio59";
+			function = "qpic";
+			bias-pull-up;
+		};
+
+		pulldowns {
+			pins = "gpio54", "gpio55", "gpio56",
+				"gpio57", "gpio60", "gpio61",
+				"gpio62", "gpio63", "gpio64",
+				"gpio65", "gpio66", "gpio67",
+				"gpio68", "gpio69";
+			function = "qpic";
+			bias-pull-down;
+		};
+	};
+};
+
+&cryptobam {
+	status = "okay";
+};
+
+&blsp_dma {
+	status = "okay";
+};
+
+&usb3_ss_phy {
+	status = "okay";
+};
+
+&usb3_hs_phy {
+	status = "okay";
+};
+
+&qpic_bam {
+	status = "okay";
+};
+
+&wifi0 {
+	status = "okay";
+	qcom,ath10k-calibration-variant = "CM520";
+};
+
+&wifi1 {
+	status = "okay";
+	qcom,ath10k-calibration-variant = "CM520";
+};

@@ -136,6 +136,16 @@ define Device/qcom_cm520
 endef
 TARGET_DEVICES += qcom_cm520
 
+define Device/qcom_cm520v2
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_DTS := qcom-ipq4019-cm520v2
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_TITLE := Qualcomm CM520v2
+endef
+TARGET_DEVICES += qcom_cm520v2
+
 define Device/netgear_ex61x0v2
 	$(call Device/DniImage)
 	KERNEL_SIZE := 3080192
