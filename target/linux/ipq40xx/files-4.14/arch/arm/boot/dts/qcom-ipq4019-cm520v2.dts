@@ -78,7 +78,7 @@
 				reg = <0x700000 0x200000>;
 			};
 
-			partition@b00000 {
+			art:partition@b00000 {
 				label = "ART";
 				reg = <0xb00000 0x80000>;
 			};
@@ -89,4 +89,12 @@
 			};
 		};
 	};
+};
+
+&gmac0 {
+	mtd-mac-address = <&art 0x1006>;
+};
+
+&gmac1 {
+	mtd-mac-address = <&art 0x5006>;
 };

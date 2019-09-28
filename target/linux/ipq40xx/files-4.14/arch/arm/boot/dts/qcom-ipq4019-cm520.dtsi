@@ -16,7 +16,6 @@
  */
 
 #include "qcom-ipq4019.dtsi"
-#include "qcom-ipq4019-bus.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/soc/qcom,tcsr.h>
@@ -24,6 +23,13 @@
 / {
 	model = "Qualcomm Technologies, Inc. IPQ4019";
 	compatible = "qcom,cm520", "qcom,ipq4019";
+
+	aliases {
+		led-boot = &led_sys;
+		led-failsafe = &led_sys;
+		led-running = &led_sys;
+		led-upgrade = &led_sys;
+	};
 
 	memory {
 		device_type = "memory";
@@ -43,7 +49,6 @@
 			status = "okay";
 			pinctrl-0 = <&mdio_pins>;
 			pinctrl-names = "default";
-			phy-reset-gpio = <&tlmm 47 0>;
 			/delete-node/ ethernet-phy@0;
 			/delete-node/ ethernet-phy@1;
 		};
@@ -115,6 +120,21 @@
 
 		usb3: usb3@8af8800 {
 			status = "okay";
+
+			dwc3@8a00000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+
+				usb3_port1: port@1 {
+					reg = <1>;
+					#trigger-source-cells = <0>;
+				};
+
+				usb3_port2: port@2 {
+					reg = <2>;
+					#trigger-source-cells = <0>;
+				};
+			};
 		};
 	};
 
@@ -128,42 +148,64 @@
 		};
 	};
 
-	gpio-leds {
+	led_spi {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+
+		gpio-sck = <&tlmm 40 GPIO_ACTIVE_HIGH>;
+		gpio-mosi = <&tlmm 36 GPIO_ACTIVE_HIGH>;
+		num-chipselects = <0>;
+
+		led_gpio: led_gpio@0 {
+			compatible = "fairchild,74hc595";
+			reg = <0>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			registers-number = <1>;
+			spi-max-frequency = <1000000>;
+		};
+	};
+
+	leds {
 		compatible = "gpio-leds";
-
-		lan3 {
-			label = "cm520:blue:lan3";
-			gpios = <&qca8075 8 GPIO_ACTIVE_HIGH>;
-		};
-
-		lan4 {
-			label = "cm520:blue:lan4";
-			gpios = <&qca8075 9 GPIO_ACTIVE_HIGH>;
-		};
-
-		wan {
-			label = "cm520:blue:wan";
-			gpios = <&qca8075 15 GPIO_ACTIVE_HIGH>;
-		};
 
 		usb {
 			label = "cm520:blue:usb";
 			gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "usbport";
+			trigger-sources = <&usb3_port1>, <&usb3_port2>;
 		};
 
-		can {
+		led_sys: can {
 			label = "cm520:blue:can";
 			gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
 		};
 
-		wifi5g {
-			label = "&qca8075:blue:wifi5g";
-			gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
+		wan {
+			label = "cm520:blue:wan";
+			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
 		};
 
-		wifi2g {
-			label = "&qca8075:blue:wifi2g";
-			gpios = <&tlmm 13 GPIO_ACTIVE_HIGH>;
+		lan1 {
+			label = "cm520:blue:lan1";
+			gpios = <&led_gpio 1 GPIO_ACTIVE_LOW>;
+		};
+
+		lan2 {
+			label = "cm520:blue:lan2";
+			gpios = <&led_gpio 2 GPIO_ACTIVE_LOW>;
+		};
+
+		wlan2g {
+			label = "cm520:blue:wlan2g";
+			gpios = <&led_gpio 5 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy0tpt";
+		};
+
+		wlan5g {
+			label = "cm520:blue:wlan5g";
+			gpios = <&led_gpio 6 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy1tpt";
 		};
 	};
 };
@@ -191,10 +233,18 @@
 			function = "mdio";
 			bias-pull-up;
 		};
+
 		mux_2 {
 			pins = "gpio7";
 			function = "mdc";
 			bias-pull-up;
+		};
+
+		pin_rst {
+			pins = "gpio47";
+			function = "gpio";
+			bias-disable;
+			output-high;
 		};
 	};
 

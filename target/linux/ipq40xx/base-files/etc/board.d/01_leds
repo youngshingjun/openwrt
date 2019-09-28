@@ -28,8 +28,9 @@ glinet,gl-b1300)
 	;;
 qcom,cm520 |\
 qcom,cm520v2)
-	ucidef_set_led_wlan "wlan2g" "WLAN2G" "cm520:blue:wlan2G" "phy0tpt"
-	ucidef_set_led_wlan "wlan5g" "WLAN5G" "cm520:blue:wlan5G" "phy1tpt"
+	ucidef_set_led_netdev "wan" "WAN" "cm520:blue:wan" "eth1"
+	ucidef_set_led_switch "lan1" "LAN1" "cm520:blue:lan1" "switch0" "0x10"
+	ucidef_set_led_switch "lan2" "LAN2" "cm520:blue:lan2" "switch0" "0x08"
 	;;
 netgear,ex6100v2 |\
 netgear,ex6150v2)

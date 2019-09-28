@@ -133,6 +133,7 @@ define Device/qcom_cm520
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
 	DEVICE_TITLE := Qualcomm CM520
+	DEVICE_PACKAGES := ipq-wifi-mobipromo_cm520-79f kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += qcom_cm520
 
@@ -143,6 +144,7 @@ define Device/qcom_cm520v2
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
 	DEVICE_TITLE := Qualcomm CM520v2
+	DEVICE_PACKAGES := ipq-wifi-mobipromo_cm520-79f kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += qcom_cm520v2
 
