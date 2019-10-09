@@ -38,8 +38,7 @@ glinet,gl-b1300)
 	ucidef_add_switch "switch0" \
 		"0u@eth0" "3:lan" "4:lan"
 	;;
-qcom,cm520 |\
-qcom,cm520v2)
+mobipromo,cm520-79f)
 	ucidef_set_interface_wan "eth1"
 	ucidef_add_switch "switch0" \
 		"0u@eth0" "3:lan:2" "4:lan:1"

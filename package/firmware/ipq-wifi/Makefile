@@ -15,7 +15,7 @@ endef
 
 #ALLWIFIBOARDS:=<devicename>
 ALLWIFIBOARDS:=zyxel_wre6606 \
-                qcom_cm520
+                mobipromo_cm520-79f
                 
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
@@ -51,7 +51,7 @@ Don't install it for any other device!
 endef
 
 $(eval $(call generate-ipq-wifi-package,zyxel_wre6606,board-zyxel_wre6606.bin,ZyXEL WRE6606))
-$(eval $(call generate-ipq-wifi-package,qcom_cm520,board-qcom_cm520.bin,Qualcomm CM520))
+$(eval $(call generate-ipq-wifi-package,mobipromo_cm520-79f,board-mobipromo_cm520-79f.bin,MobiPromo CM520-79F))
 #$(eval $(call generate-ipq-wifi-package,<devicename>,<filename>,<displayname>))
 
 $(foreach PACKAGE,$(ALLWIFIPACKAGES),$(eval $(call BuildPackage,$(PACKAGE))))

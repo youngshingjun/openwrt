@@ -1,28 +1,15 @@
-/* Copyright (c) 2015, The Linux Foundation. All rights reserved.
- * Copyright (c) 2018, David Bauer <mail@david-bauer.net>
- *
- * Permission to use, copy, modify, and/or distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *
- */
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 
 #include "qcom-ipq4019.dtsi"
+#include "qcom-ipq4019-bus.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/soc/qcom,tcsr.h>
 
 / {
-	model = "Qualcomm Technologies, Inc. IPQ4019";
-	compatible = "qcom,cm520", "qcom,ipq4019";
+
+	model = "MobiPromo CM520-79F";
+	compatible = "mobipromo,cm520-79f";
 
 	aliases {
 		led-boot = &led_sys;
@@ -31,13 +18,8 @@
 		led-upgrade = &led_sys;
 	};
 
-	memory {
-		device_type = "memory";
-		reg = <0x80000000 0x20000000>;
-	};
-
 	chosen {
-		bootargs-append = "ubi.block=0,1 root=/dev/ubiblock0_1 rootfstype=squashfs";
+		bootargs-append = " ubi.block=0,1 root=/dev/ubiblock0_1";
 	};
 
 	soc {
@@ -49,8 +31,6 @@
 			status = "okay";
 			pinctrl-0 = <&mdio_pins>;
 			pinctrl-names = "default";
-			/delete-node/ ethernet-phy@0;
-			/delete-node/ ethernet-phy@1;
 		};
 
 		ess-psgmii@98000 {
@@ -81,31 +61,6 @@
 			qcom,wifi_noc_memtype_m0_m2 = <TCSR_WIFI_NOC_MEMTYPE_M0_M2>;
 		};
 
-		usb3@8af8800 {
-			status = "okay";
-		};
-
-		crypto@8e3a000 {
-			status = "okay";
-		};
-
-		watchdog@b017000 {
-			status = "okay";
-		};
-
-		qca8075: ess-switch@c000000 {
-			status = "okay";
-			switch_lan_bmp = <0x18>;
-			switch_wan_bmp = <0x20>;
-
-			#gpio-cells = <2>;
-			gpio-controller;
-		};
-
-		edma@c080000 {
-			status = "okay";
-		};
-
 		serial@78af000 {
 			pinctrl-0 = <&serial_0_pins>;
 			pinctrl-names = "default";
@@ -118,7 +73,7 @@
 			status = "okay";
 		};
 
-		usb3: usb3@8af8800 {
+		usb3@8af8800 {
 			status = "okay";
 
 			dwc3@8a00000 {
@@ -136,15 +91,21 @@
 				};
 			};
 		};
-	};
 
-	gpio-keys {
-		compatible = "gpio-keys";
+		crypto@8e3a000 {
+			status = "okay";
+		};
 
-		reset {
-			label = "reset";
-			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_RESTART>;
+		watchdog@b017000 {
+			status = "okay";
+		};
+
+		ess-switch@c000000 {
+			status = "okay";
+		};
+
+		edma@c080000 {
+			status = "okay";
 		};
 	};
 
@@ -162,7 +123,7 @@
 			gpio-controller;
 			#gpio-cells = <2>;
 			registers-number = <1>;
-			spi-max-frequency = <1000000>;
+			spi-max-frequency = <10000000>;
 		};
 	};
 
@@ -170,44 +131,163 @@
 		compatible = "gpio-leds";
 
 		usb {
-			label = "cm520:blue:usb";
+			label = "cm520-79f:blue:usb";
 			gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "usbport";
 			trigger-sources = <&usb3_port1>, <&usb3_port2>;
 		};
 
 		led_sys: can {
-			label = "cm520:blue:can";
+			label = "cm520-79f:blue:can";
 			gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
 		};
 
 		wan {
-			label = "cm520:blue:wan";
+			label = "cm520-79f:blue:wan";
 			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
 		};
 
 		lan1 {
-			label = "cm520:blue:lan1";
+			label = "cm520-79f:blue:lan1";
 			gpios = <&led_gpio 1 GPIO_ACTIVE_LOW>;
 		};
 
 		lan2 {
-			label = "cm520:blue:lan2";
+			label = "cm520-79f:blue:lan2";
 			gpios = <&led_gpio 2 GPIO_ACTIVE_LOW>;
 		};
 
 		wlan2g {
-			label = "cm520:blue:wlan2g";
+			label = "cm520-79f:blue:wlan2g";
 			gpios = <&led_gpio 5 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy0tpt";
 		};
 
 		wlan5g {
-			label = "cm520:blue:wlan5g";
+			label = "cm520-79f:blue:wlan5g";
 			gpios = <&led_gpio 6 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy1tpt";
 		};
 	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+};
+
+&blsp_dma {
+	status = "okay";
+};
+
+&cryptobam {
+	status = "okay";
+};
+
+&gmac0 {
+	mtd-mac-address = <&art 0x1006>;
+};
+
+&gmac1 {
+	mtd-mac-address = <&art 0x5006>;
+};
+
+&nand {
+	pinctrl-0 = <&nand_pins>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	nand@0 {
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "SBL1";
+				reg = <0x0 0x100000>;
+				read-only;
+			};
+
+			partition@100000 {
+				label = "MIBIB";
+				reg = <0x100000 0x100000>;
+				read-only;
+			};
+
+			partition@200000 {
+				label = "BOOTCONFIG";
+				reg = <0x200000 0x100000>;
+			};
+
+			partition@300000 {
+				label = "QSEE";
+				reg = <0x300000 0x100000>;
+				read-only;
+			};
+
+			partition@400000 {
+				label = "QSEE_1";
+				reg = <0x400000 0x100000>;
+				read-only;
+			};
+
+			partition@500000 {
+				label = "CDT";
+				reg = <0x500000 0x80000>;
+				read-only;
+			};
+
+			partition@580000 {
+				label = "CDT_1";
+				reg = <0x580000 0x80000>;
+				read-only;
+			};
+
+			partition@600000 {
+				label = "BOOTCONFIG1";
+				reg = <0x600000 0x80000>;
+			};
+
+			partition@680000 {
+				label = "APPSBLENV";
+				reg = <0x680000 0x80000>;
+				read-only;
+			};
+
+			partition@700000 {
+				label = "APPSBL";
+				reg = <0x700000 0x200000>;
+				read-only;
+			};
+
+			partition@900000 {
+				label = "APPSBL_1";
+				reg = <0x900000 0x200000>;
+				read-only;
+			};
+
+			art: partition@b00000 {
+				label = "ART";
+				reg = <0xb00000 0x80000>;
+				read-only;
+			};
+
+			partition@b80000 {
+				label = "rootfs";
+				reg = <0xb80000 0x7400000>;
+			};
+		};
+	};
+};
+
+&qpic_bam {
+	status = "okay";
 };
 
 &tlmm {
@@ -249,16 +329,15 @@
 	};
 
 	nand_pins: nand_pins {
-
 		pullups {
-			pins = "gpio52", "gpio53", "gpio58",
+			pins =	"gpio52", "gpio53", "gpio58",
 				"gpio59";
 			function = "qpic";
 			bias-pull-up;
 		};
 
 		pulldowns {
-			pins = "gpio54", "gpio55", "gpio56",
+			pins =	"gpio54", "gpio55", "gpio56",
 				"gpio57", "gpio60", "gpio61",
 				"gpio62", "gpio63", "gpio64",
 				"gpio65", "gpio66", "gpio67",
@@ -269,14 +348,6 @@
 	};
 };
 
-&cryptobam {
-	status = "okay";
-};
-
-&blsp_dma {
-	status = "okay";
-};
-
 &usb3_ss_phy {
 	status = "okay";
 };
@@ -285,16 +356,12 @@
 	status = "okay";
 };
 
-&qpic_bam {
-	status = "okay";
-};
-
 &wifi0 {
 	status = "okay";
-	qcom,ath10k-calibration-variant = "CM520";
+	qcom,ath10k-calibration-variant = "CM520-79F";
 };
 
 &wifi1 {
 	status = "okay";
-	qcom,ath10k-calibration-variant = "CM520";
+	qcom,ath10k-calibration-variant = "CM520-79F";
 };

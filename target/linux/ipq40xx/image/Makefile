@@ -126,27 +126,16 @@ define Device/meraki_mr33
 endef
 TARGET_DEVICES += meraki_mr33
 
-define Device/qcom_cm520
+define Device/mobipromo_cm520-79f
 	$(call Device/FitImage)
 	$(call Device/UbiFit)
-	DEVICE_DTS := qcom-ipq4019-cm520
+	DEVICE_TITLE := MobiPromo CM520-79F
+	DEVICE_DTS := qcom-ipq4019-cm520-79f
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
-	DEVICE_TITLE := Qualcomm CM520
 	DEVICE_PACKAGES := ipq-wifi-mobipromo_cm520-79f kmod-usb-ledtrig-usbport
 endef
-TARGET_DEVICES += qcom_cm520
-
-define Device/qcom_cm520v2
-	$(call Device/FitImage)
-	$(call Device/UbiFit)
-	DEVICE_DTS := qcom-ipq4019-cm520v2
-	BLOCKSIZE := 128k
-	PAGESIZE := 2048
-	DEVICE_TITLE := Qualcomm CM520v2
-	DEVICE_PACKAGES := ipq-wifi-mobipromo_cm520-79f kmod-usb-ledtrig-usbport
-endef
-TARGET_DEVICES += qcom_cm520v2
+TARGET_DEVICES += mobipromo_cm520-79f
 
 define Device/netgear_ex61x0v2
 	$(call Device/DniImage)

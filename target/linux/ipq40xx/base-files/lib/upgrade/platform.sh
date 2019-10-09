@@ -31,8 +31,7 @@ EOF
 
 platform_do_upgrade() {
 	case "$(board_name)" in
-	qcom,cm520 |\
-	qcom,cm520v2 |\
+	mobipromo,cm520-79f |\
 	8dev,jalapeno)
 		nand_do_upgrade "$ARGV"
 		;;
