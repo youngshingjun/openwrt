@@ -40,9 +40,9 @@ glinet,gl-b1300)
 	;;
 qcom,cm520 |\
 qcom,cm520v2)
-	ucidef_set_interfaces_lan_wan "eth0" "eth1"
+	ucidef_set_interface_wan "eth1"
 	ucidef_add_switch "switch0" \
-		"0u@eth0" "3:lan" "4:lan" "5:wan"
+		"0u@eth0" "3:lan:2" "4:lan:1"
 	;;
 openmesh,a42 |\
 openmesh,a62)

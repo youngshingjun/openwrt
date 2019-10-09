@@ -14,7 +14,9 @@ define Build/Compile
 endef
 
 #ALLWIFIBOARDS:=<devicename>
-ALLWIFIBOARDS:=zyxel_wre6606
+ALLWIFIBOARDS:=zyxel_wre6606 \
+                qcom_cm520
+                
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
 define Package/ipq-wifi-default
