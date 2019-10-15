@@ -47,10 +47,10 @@ zyxel_do_upgrade() {
 platform_do_upgrade() {
 	case "$(board_name)" in
 	8dev,jalapeno |\
-	qcom,cm520 |\
 	alfa-network,ap120c-ac |\
 	avm,fritzbox-7530 |\
 	avm,fritzrepeater-3000 |\
+	mobipromo,cm520-79f |\
 	qxwlan,e2600ac-c2)
 		nand_do_upgrade "$1"
 		;;

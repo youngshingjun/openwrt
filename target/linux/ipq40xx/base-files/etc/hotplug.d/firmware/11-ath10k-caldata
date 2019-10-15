@@ -134,6 +134,7 @@ case "$FIRMWARE" in
 	alfa-network,ap120c-ac |\
 	glinet,gl-b1300 |\
 	linksys,ea6350v3 |\
+	mobipromo,cm520-79f |\
 	qcom,ap-dk01.1-c1)
 		ath10kcal_extract "ART" 4096 12064
 		;;
@@ -157,7 +158,6 @@ case "$FIRMWARE" in
 		/usr/bin/fritz_cal_extract -i 1 -s 0x3D000 -e 0x207 -l 12064 -o /lib/firmware/$FIRMWARE $(find_mtd_chardev "urlader1")
 		;;
 	compex,wpj428 |\
-	qcom,cm520 |\
 	engenius,eap1300 |\
 	openmesh,a42 |\
 	openmesh,a62 |\
@@ -196,6 +196,7 @@ case "$FIRMWARE" in
 	alfa-network,ap120c-ac |\
 	glinet,gl-b1300 |\
 	linksys,ea6350v3 |\
+	mobipromo,cm520-79f |\
 	qcom,ap-dk01.1-c1)
 		ath10kcal_extract "ART" 20480 12064
 		;;
@@ -219,7 +220,6 @@ case "$FIRMWARE" in
 		/usr/bin/fritz_cal_extract -i 1 -s 0x3C000 -e 0x208 -l 12064 -o /lib/firmware/$FIRMWARE $(find_mtd_chardev "urlader1")
 		;;
 	compex,wpj428 |\
-	qcom,cm520 |\
 	engenius,eap1300 |\
 	openmesh,a42 |\
 	openmesh,a62 |\
