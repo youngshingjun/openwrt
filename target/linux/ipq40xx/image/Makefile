@@ -277,11 +277,10 @@ TARGET_DEVICES += meraki_mr33
 define Device/mobipromo_cm520-79f
 	$(call Device/FitzImage)
 	$(call Device/UbiFit)
-	DEVICE_VENDOR := MobiPromo
-	DEVICE_MODEL := CM520-79F
 	DEVICE_DTS := qcom-ipq4019-cm520-79f
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
+	DEVICE_TITLE := MobiPromo CM520-79F
 	DEVICE_PACKAGES := ipq-wifi-mobipromo_cm520-79f kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += mobipromo_cm520-79f
