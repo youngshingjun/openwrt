@@ -9,7 +9,7 @@
 / {
 
 	model = "MobiPromo CM520-79F";
-	compatible = "mobipromo,cm520-79f";
+	compatible = "mobipromo,cm520-79f", "qcom,ipq4019";
 
 	aliases {
 		led-boot = &led_sys;
@@ -19,7 +19,7 @@
 	};
 
 	chosen {
-		bootargs-append = " ubi.block=0,1 root=/dev/ubiblock0_1";
+		bootargs-append = "ubi.block=0,1 root=/dev/ubiblock0_1 rootfstype=squashfs";
 	};
 
 	soc {
@@ -330,14 +330,14 @@
 
 	nand_pins: nand_pins {
 		pullups {
-			pins =	"gpio52", "gpio53", "gpio58",
+			pins = "gpio52", "gpio53", "gpio58",
 				"gpio59";
 			function = "qpic";
 			bias-pull-up;
 		};
 
 		pulldowns {
-			pins =	"gpio54", "gpio55", "gpio56",
+			pins = "gpio54", "gpio55", "gpio56",
 				"gpio57", "gpio60", "gpio61",
 				"gpio62", "gpio63", "gpio64",
 				"gpio65", "gpio66", "gpio67",
