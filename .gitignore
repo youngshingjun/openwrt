@@ -6,6 +6,7 @@
 /.config
 /.config.old
 /.config.bak
+/.config.base
 /bin
 /build_dir
 /staging_dir
