@@ -4,9 +4,7 @@
 /env
 /dl
 /.config
-/.config.old
-/.config.bak
-/.config.base
+/.config.*
 /bin
 /build_dir
 /staging_dir
