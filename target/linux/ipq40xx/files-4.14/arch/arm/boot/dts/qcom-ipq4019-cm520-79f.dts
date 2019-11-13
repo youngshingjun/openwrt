@@ -99,6 +99,7 @@
 	led_spi {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
+		#size-cells = <0>;
 
 		gpio-sck = <&tlmm 40 GPIO_ACTIVE_HIGH>;
 		gpio-mosi = <&tlmm 36 GPIO_ACTIVE_HIGH>;
@@ -272,6 +273,11 @@
 			partition@b80000 {
 				label = "rootfs";
 				reg = <0xb80000 0x7400000>;
+			};
+
+			partition@7F80000 {
+				label = "unused";
+				reg = <0x7F800000 0x80000>;
 			};
 		};
 	};

@@ -285,6 +285,17 @@ define Device/mobipromo_cm520-79f
 endef
 TARGET_DEVICES += mobipromo_cm520-79f
 
+define Device/p2w_r619ac
+	$(call Device/FitzImage)
+	$(call Device/UbiFit)
+	DEVICE_DTS := qcom-ipq4019-r619ac
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_TITLE := P&W R619AC
+	DEVICE_PACKAGES := ipq-wifi-p2w_r619ac
+endef
+TARGET_DEVICES += p2w_r619ac
+
 define Device/netgear_ex61x0v2
 	$(call Device/DniImage)
 	DEVICE_DTS_CONFIG := config@4
@@ -334,7 +345,6 @@ define Device/openmesh_a62
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-rootfs | sysupgrade-tar rootfs=$$$$@ | append-metadata
 	DEVICE_PACKAGES := ath10k-firmware-qca9888-ct uboot-envtools
 endef
-
 TARGET_DEVICES += openmesh_a62
 
 define Device/qcom_ap-dk01.1-c1
