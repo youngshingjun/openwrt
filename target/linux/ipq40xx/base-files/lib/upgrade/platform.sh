@@ -49,6 +49,7 @@ platform_do_upgrade() {
 	8dev,jalapeno |\
 	alfa-network,ap120c-ac |\
 	avm,fritzbox-7530 |\
+	avm,fritzrepeater-1200 |\
 	avm,fritzrepeater-3000 |\
 	mobipromo,cm520-79f |\
 	p2w,r619ac |\
