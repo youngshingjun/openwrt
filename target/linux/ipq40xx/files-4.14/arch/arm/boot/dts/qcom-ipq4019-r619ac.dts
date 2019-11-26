@@ -173,6 +173,11 @@
 				read-only;
 			};
 
+			partition@1 {
+				label = "Bootloader";
+				reg = <0x0 0x170000>;
+			};
+
 			art: partition@170000 {
 				label = "ART";
 				reg = <0x170000 0x10000>;
