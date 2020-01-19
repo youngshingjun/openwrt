@@ -38,6 +38,7 @@ define Device/dir-645
   SEAMA_SIGNATURE := wrgn39_dlob.hans_dir645
   DEVICE_TITLE := D-Link DIR-645
   DEVICE_PACKAGES := kmod-usb-core kmod-usb-ohci kmod-usb2 swconfig
+  DEFAULT := n
 endef
 TARGET_DEVICES += dir-645
 
@@ -48,7 +49,7 @@ define Device/belkin_f9k1109v1
   DEVICE_TITLE := Belkin F9K1109 Version 1.0
   DEVICE_PACKAGES := kmod-usb-core kmod-usb-ohci kmod-usb2 swconfig
   IMAGE_SIZE := 7224k
-  KERNEL := kernel-bin | patch-dtb | lzma -d16 | uImage lzma
+  KERNEL := kernel-bin | append-dtb | lzma -d16 | uImage lzma
   # Stock firmware checks for this uImage image name during upload.
   UIMAGE_NAME := N750F9K1103VB
 endef
