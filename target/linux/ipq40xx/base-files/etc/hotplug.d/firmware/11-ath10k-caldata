@@ -136,6 +136,7 @@ case "$FIRMWARE" in
 	linksys,ea6350v3 |\
 	mobipromo,cm520-79f |\
 	p2w,r619ac |\
+	p2w,r619ac-128m |\
 	qcom,ap-dk01.1-c1)
 		ath10kcal_extract "ART" 4096 12064
 		;;
@@ -200,6 +201,7 @@ case "$FIRMWARE" in
 	linksys,ea6350v3 |\
 	mobipromo,cm520-79f |\
 	p2w,r619ac |\
+	p2w,r619ac-128m |\
 	qcom,ap-dk01.1-c1)
 		ath10kcal_extract "ART" 20480 12064
 		;;
